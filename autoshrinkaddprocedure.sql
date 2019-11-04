@@ -56,7 +56,7 @@ IF CURSOR_STATUS('global','SERVER_CURSOR')=-1
 DECLARE SERVER_CURSOR CURSOR FOR 
 SELECT groups.name, svr.name FROM msdb.dbo.sysmanagement_shared_server_groups_internal groups 
 INNER JOIN msdb.dbo.sysmanagement_shared_registered_servers_internal svr
-ON groups.server_group_id = svr.server_group_id where (svr.name like '%TEST%' or svr.name like '%TST%' or svr.name like '%DEV%' or svr.name like '%POC%' or svr.name like '%UAT%') and svr.name = 'YKFTESTDB';
+ON groups.server_group_id = svr.server_group_id;
 
 OPEN SERVER_CURSOR
 FETCH NEXT FROM SERVER_CURSOR INTO @SQL_NAME, @SERVER_NAME;
@@ -70,7 +70,7 @@ BEGIN
 		BEGIN TRY
 			EXEC sp_addlinkedserver @server = @LINKEDSERVER_NAME, @srvproduct=N'',  @provider=N'SQLNCLI',  @datasrc = @SERVER_NAME;
 			EXEC sp_serveroption @server = @LINKEDSERVER_NAME, @optname = 'rpc out', @optvalue = 'True';
-			EXEC sp_addlinkedsrvlogin @LINKEDSERVER_NAME, 'FALSE', NULL, 'XXXXX', 'XXXXX';
+			EXEC sp_addlinkedsrvlogin @LINKEDSERVER_NAME, 'FALSE', NULL, 'username_here', 'password_here';
 		END TRY
 		BEGIN CATCH
 			IF ERROR_MESSAGE() NOT LIKE '%already exists%'
