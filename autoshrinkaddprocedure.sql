@@ -362,7 +362,7 @@ SET @TABLE_ROWS = '
 
 EXEC msdb.dbo.sp_send_dbmail  
 @profile_name = 'Database Mail Profile',  
-@recipients = 'mustafa.bucak@yapikredi.com.tr',  
+@recipients = 'mail_here',  
 @subject = 'SQL Server Auto Shrink Report',  
 @body_format ='HTML',
 @body = @TABLE_ROWS;   
